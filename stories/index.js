@@ -16,6 +16,7 @@ import SimpleListCardItem from 'components/Cards/SimpleListItem'
 import Logo from 'components/Logo'
 import JobRunsList from 'components/JobRuns/List'
 import StatusCard from 'components/JobRuns/StatusCard'
+import Table from 'components/Table'
 
 window.JavascriptTimeAgo = JavascriptTimeAgo
 JavascriptTimeAgo.locale(en)
@@ -153,6 +154,42 @@ storiesOf('Tabular Data', module)
         {id: 'f5b5c848b8154d5eab8cd9a36fe1d506', status: 'errored', createdAt: '2018-11-26T18:26:42.133809-08:00', result: {data: {}, error: 'server not responding'}},
         {id: 'c1aeec88e8104424aa69deb383e76695', status: 'completed', createdAt: '2018-11-23T09:18:14.120683-08:00', result: {data: {price: 123.45}}}
       ]} />
+    </Router>
+  ))
+  .add('Table', () => (
+    <Router>
+      <Grid container spacing={40}>
+        <Grid item xs={12}>
+          <Grid container>
+            <Grid item xs={6}>
+              <Typography variant='h5'>Loading</Typography>
+              <Table cols={['ID', 'Result', 'Created At']} />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container>
+            <Grid item xs={6}>
+              <Typography variant='h5'>Empty</Typography>
+              <Table cols={['ID', 'Result', 'Created At']} rows={[]} />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container>
+            <Grid item xs={6}>
+              <Typography variant='h5'>Unformatted Rows</Typography>
+              <Table
+                cols={['ID', 'Result', 'Created At']}
+                rows={[
+                  ['19b7a66e82f84af983b106eeba86ace3', 'Success', '2019-01-09T00:56:20.932089Z'],
+                  ['1ce100385ae94deb8252317d077df2a2', 'Failure', '2018-10-22T21:52:58.828019Z']
+                ]}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
     </Router>
   ))
 

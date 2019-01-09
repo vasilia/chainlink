@@ -189,6 +189,24 @@ storiesOf('Tabular Data', module)
             </Grid>
           </Grid>
         </Grid>
+        <Grid item xs={12}>
+          <Grid container>
+            <Grid item xs={6}>
+              <Typography variant='h5'>Formatted Rows</Typography>
+              <Table
+                cols={[
+                  {name: 'ID', type: 'link', baseUrl: 'https:/test.com/'},
+                  'Result',
+                  {name: 'Created At', type: 'datetimeRelative'}
+                ]}
+                rows={[
+                  ['19b7a66e82f84af983b106eeba86ace3', 'Success', '2019-01-09T00:56:20.932089Z'],
+                  ['1ce100385ae94deb8252317d077df2a2', 'Failure', '2018-10-22T21:52:58.828019Z']
+                ]}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
       </Grid>
     </Router>
   ))

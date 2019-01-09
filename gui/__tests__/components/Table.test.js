@@ -31,6 +31,18 @@ describe('components/Table', () => {
     expect(wrapper.text()).toContain('Row2ColB')
   })
 
+  it('can render formatted columns', () => {
+    let wrapper = render(<Table
+      cols={[
+        {name: 'ID', type: 'link'},
+        {name: 'Created At', type: 'datetimeRelative'}
+      ]}
+      rows={[['abc123', '2018']]}
+    />)
+    expect(wrapper.text()).toContain('abc123')
+    expect(wrapper.text()).toContain('seconds ago')
+  })
+
   it('renders a loading message when rows are falsey', () => {
     let wrapper = render(<Table cols={[]} />)
     expect(wrapper.text()).toContain('Loading...')

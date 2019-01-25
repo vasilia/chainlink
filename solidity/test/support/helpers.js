@@ -180,13 +180,14 @@ const endMapBuffer = Buffer.from([0xFF])
 
 export const decodeRunRequest = log => {
   const runABI = util.toBuffer(log.data)
-  const types = ['bytes32', 'address', 'bytes4', 'uint256', 'uint256', 'bytes']
+  const types = ['bytes32', 'address', 'bytes4', 'uint256', 'uint256', 'uint256', 'bytes']
   const [
     requestId,
     callbackAddress,
     callbackFunc,
     expiration,
     version,
+    gasLimit,
     data
   ] = abi.rawDecode(types, runABI)
 
@@ -200,6 +201,7 @@ export const decodeRunRequest = log => {
     callbackFunc: toHex(callbackFunc),
     expiration: toHex(expiration),
     dataVersion: version,
+    gasLimit,
     data: autoAddMapDelimiters(data)
   }
 }

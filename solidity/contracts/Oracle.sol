@@ -33,6 +33,7 @@ contract Oracle is ChainlinkRequestInterface, OracleInterface, Ownable {
     bytes4 callbackFunctionId,
     uint256 cancelExpiration,
     uint256 dataVersion,
+    uint256 gasLimit,
     bytes data
   );
 
@@ -100,6 +101,7 @@ contract Oracle is ChainlinkRequestInterface, OracleInterface, Ownable {
       _callbackFunctionId,
       expiration,
       _dataVersion,
+      0,
       _data);
   }
 

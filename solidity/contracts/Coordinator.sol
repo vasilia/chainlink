@@ -42,6 +42,7 @@ contract Coordinator is ChainlinkRequestInterface, CoordinatorInterface {
     bytes4 callbackFunctionId,
     uint256 cancelExpiration,
     uint256 dataVersion,
+    uint256 gasLimit,
     bytes data
   );
 
@@ -105,6 +106,7 @@ contract Coordinator is ChainlinkRequestInterface, CoordinatorInterface {
       _callbackFunctionId,
       now.add(5 minutes),
       _dataVersion,
+      0,
       _data);
   }
 

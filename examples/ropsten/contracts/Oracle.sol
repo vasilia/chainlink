@@ -192,6 +192,11 @@ contract Oracle is ChainlinkRequestInterface, OracleInterface, Ownable {
   mapping(address => bool) private authorizedNodes;
   uint256 private withdrawableTokens = ONE_FOR_CONSISTENT_GAS_COST;
 
+  struct Gas {
+    uint256 gasLimit,
+    uint256 gasPrice,
+  };
+
   event OracleRequest(
     bytes32 indexed specId,
     address indexed requester,
@@ -201,7 +206,7 @@ contract Oracle is ChainlinkRequestInterface, OracleInterface, Ownable {
     bytes4 callbackFunctionId,
     uint256 cancelExpiration,
     uint256 dataVersion,
-    uint256 gasLimit,
+    Gas gas,
     bytes data
   );
 
@@ -269,6 +274,7 @@ contract Oracle is ChainlinkRequestInterface, OracleInterface, Ownable {
       _callbackFunctionId,
       expiration,
       _dataVersion,
+      0,
       0,
       _data);
   }

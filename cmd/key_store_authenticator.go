@@ -79,5 +79,6 @@ func createAccount(store *store.Store, password string) error {
 	if err != nil {
 		return err
 	}
+	store.SyncDiskKeyStoreToDb()
 	return checkPassword(store, password)
 }

@@ -31,7 +31,8 @@ func (m Migration) Migrate(orm *orm.ORM) error {
 		migrationHelper(orm, &models.Encumbrance{}),
 		migrationHelper(orm, &models.ServiceAgreement{}),
 		migrationHelper(orm, &models.BulkDeleteRunTask{}),
-		migrationHelper(orm, &models.BulkDeleteRunRequest{}))
+		migrationHelper(orm, &models.BulkDeleteRunRequest{}),
+		migrationHelper(orm, &models.Key{}))
 }
 
 func migrationHelper(orm *orm.ORM, model interface{}) error {

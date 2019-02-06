@@ -448,7 +448,7 @@ func AddPrivateKey(config *TestConfig, src string) {
 	err := os.MkdirAll(config.KeysDir(), os.FileMode(0700))
 	mustNotErr(err)
 
-	dst := config.KeysDir() + "/testwallet.json"
+	dst := filepath.Join(config.KeysDir(), "testwallet.json")
 	copyFile(src, dst)
 }
 

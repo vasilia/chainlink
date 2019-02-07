@@ -173,6 +173,7 @@ func (s *Store) SyncDiskKeyStoreToDb() error {
 			continue
 		}
 
+		fmt.Println("--- first or create:", key.Address.String())
 		err = s.FirstOrCreateKey(key)
 		if err != nil {
 			merr = multierr.Append(err, merr)

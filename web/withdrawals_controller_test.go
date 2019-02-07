@@ -71,7 +71,7 @@ func TestWithdrawalsController_CreateSuccess(t *testing.T) {
 func TestWithdrawalsController_BalanceTooLow(t *testing.T) {
 	t.Parallel()
 
-	config, _ := cltest.NewConfigWithPrivateKey()
+	config, _ := cltest.NewConfig()
 	oca := common.HexToAddress("0xDEADB3333333F")
 	config.Set("ORACLE_CONTRACT_ADDRESS", &oca)
 	app, cleanup := cltest.NewApplicationWithConfigAndKeyStore(config)

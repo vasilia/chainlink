@@ -162,6 +162,7 @@ func (cli *Client) ImportKey(c *clipkg.Context) error {
 	kdir := cli.Config.KeysDir()
 
 	if !utils.FileExists(kdir) {
+		fmt.Println("---- making dir")
 		err := os.MkdirAll(kdir, os.FileMode(0700))
 		if err != nil {
 			return cli.errorOut(err)
@@ -178,6 +179,7 @@ func (cli *Client) ImportKey(c *clipkg.Context) error {
 		return cli.errorOut(err)
 	}
 
+	fmt.Println("---- syncing to database")
 	return app.GetStore().SyncDiskKeyStoreToDb()
 }
 

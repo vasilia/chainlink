@@ -178,7 +178,7 @@ func TestFileAPIInitializer_InitializeWithoutAPIUser(t *testing.T) {
 		file      string
 		wantError bool
 	}{
-		{"correct", "../internal/fixtures/apicredentials", false},
+		{"correct", "testdata/apicredentials", false},
 		{"no file", "", true},
 		{"incorrect file", "/tmp/doesnotexist", true},
 	}
@@ -216,7 +216,7 @@ func TestFileAPIInitializer_InitializeWithExistingAPIUser(t *testing.T) {
 		file      string
 		wantError bool
 	}{
-		{"correct", "../internal/fixtures/apicredentials", false},
+		{"correct", "testdata/apicredentials", false},
 		{"no file", "", true},
 		{"incorrect file", "/tmp/doesnotexist", true},
 	}
@@ -262,7 +262,7 @@ func TestFileSessionRequestBuilder(t *testing.T) {
 		wantError             bool
 	}{
 		{"empty", "", "", true},
-		{"correct file", "../internal/fixtures/apicredentials", "email@test.net", false},
+		{"correct file", "testdata/apicredentials", "email@test.net", false},
 		{"incorrect file", "/tmp/dontexist", "", true},
 	}
 

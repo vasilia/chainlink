@@ -2,6 +2,7 @@ package cmd_test
 
 import (
 	"flag"
+	"path/filepath"
 	"testing"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -124,8 +125,7 @@ func TestClient_ShowJobSpec_NotFound(t *testing.T) {
 func TestClient_CreateServiceAgreement(t *testing.T) {
 	t.Parallel()
 
-	config, _ := cltest.NewConfigWithPrivateKey()
-	app, cleanup := cltest.NewApplicationWithConfigAndUnlockedAccount(config)
+	app, cleanup := cltest.NewApplicationWithKeyStore()
 	defer cleanup()
 	client, _ := app.NewClientAndRenderer()
 
@@ -381,7 +381,7 @@ func TestClient_RemoteLogin(t *testing.T) {
 		wantError  bool
 	}{
 		{"success prompt", "", cltest.APIEmail, cltest.Password, false},
-		{"success file", "../internal/fixtures/apicredentials", "", "", false},
+		{"success file", "testdata/apicredentials", "", "", false},
 		{"failure prompt", "", "wrong@email.com", "wrongpwd", true},
 		{"failure file", "/tmp/doesntexist", "", "", true},
 		{"failure file w correct prompt", "/tmp/doesntexist", cltest.APIEmail, cltest.Password, true},
@@ -536,7 +536,7 @@ func TestClient_ChangePassword(t *testing.T) {
 	otherClient := app.NewAuthenticatingClient(prompter)
 
 	set := flag.NewFlagSet("test", 0)
-	set.String("file", "../internal/fixtures/apicredentials", "")
+	set.String("file", filepath.Join("testdata", "apicredentials"), "")
 	c := cli.NewContext(nil, set, nil)
 	err := client.RemoteLogin(c)
 	assert.NoError(t, err)
@@ -605,7 +605,7 @@ func TestClient_CreateExtraKey(t *testing.T) {
 	client, _ := app.NewClientAndRenderer()
 
 	set := flag.NewFlagSet("test", 0)
-	set.String("file", "../internal/fixtures/apicredentials", "")
+	set.String("file", "testdata/apicredentials", "")
 	c := cli.NewContext(nil, set, nil)
 	err := client.RemoteLogin(c)
 	assert.NoError(t, err)

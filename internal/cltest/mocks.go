@@ -398,15 +398,7 @@ type seededAppFactory struct {
 }
 
 func (s seededAppFactory) NewApplication(config store.Config) services.Application {
-	return noopStopApplication{s.Application}
-}
-
-type noopStopApplication struct {
-	services.Application
-}
-
-func (a noopStopApplication) Stop() error {
-	return nil
+	return s.Application
 }
 
 // CallbackAuthenticator contains a call back authenticator method

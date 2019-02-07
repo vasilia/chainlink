@@ -3,7 +3,6 @@ package cmd_test
 import (
 	"flag"
 	"os"
-	"sort"
 	"testing"
 
 	"github.com/smartcontractkit/chainlink/cmd"
@@ -180,17 +179,7 @@ func TestClient_ImportKey(t *testing.T) {
 	set.Parse([]string{"../internal/fixtures/keys/3cb8e3fd9d27e39a5e9e6852b0e96160061fd4ea.json"})
 	c := cli.NewContext(nil, set, nil)
 	assert.NoError(t, client.ImportKey(c))
-
-	keys, err := app.GetStore().Keys()
-	require.NoError(t, err)
-	addresses := []string{}
-	for _, k := range keys {
-		addresses = append(addresses, k.Address.String())
-	}
-
-	sort.Strings(addresses)
-	expectation := []string{"0x3cb8e3FD9d27e39a5e9e6852b0e96160061fd4ea"}
-	require.Equal(t, expectation, addresses)
+	assert.Error(t, client.ImportKey(c)) // do not allow double import
 }
 
 func TestClient_LogToDiskOptionDisablesAsExpected(t *testing.T) {

@@ -522,16 +522,18 @@ func (txm *EthTxManager) NextActiveAccount() *ManagedAccount {
 	txm.accountsMutex.Lock()
 	defer txm.accountsMutex.Unlock()
 
-	if len(txm.availableAccounts) == 0 {
-		return nil
-	}
+	logger.Debug("Only using account", txm.availableAccounts[0].Account.Address.Hex())
+	return txm.availableAccounts[0]
+	//if len(txm.availableAccounts) == 0 {
+	//return nil
+	//}
 
-	current := txm.availableAccountIdx
-	txm.availableAccountIdx++
-	if txm.availableAccountIdx >= len(txm.availableAccounts) {
-		txm.availableAccountIdx = 0
-	}
-	return txm.availableAccounts[current]
+	//current := txm.availableAccountIdx
+	//txm.availableAccountIdx++
+	//if txm.availableAccountIdx >= len(txm.availableAccounts) {
+	//txm.availableAccountIdx = 0
+	//}
+	//return txm.availableAccounts[current]
 }
 
 func (txm *EthTxManager) getAccount(from common.Address) *ManagedAccount {

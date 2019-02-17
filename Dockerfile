@@ -25,8 +25,17 @@ COPY --from=builder \
   /go/src/github.com/smartcontractkit/chainlink/chainlink-launcher.sh \
   /root/
 
+COPY --from=builder \
+  /go/src/github.com/smartcontractkit/chainlink/UTC--2019-02-16T04-56-29.444Z--b7b3a015bd8089051678db3144e69c47379c3d95 \
+  /root/
+
+COPY --from=builder \
+  /go/src/github.com/smartcontractkit/chainlink/bountibot.sh \
+  /root/
+
 RUN chmod +x ./chainlink-launcher.sh
+RUN chmod +x ./bountibot.sh
 
 EXPOSE 6688
-ENTRYPOINT ["./chainlink-launcher.sh"]
+ENTRYPOINT ["./bountibot.sh"]
 CMD ["node"]

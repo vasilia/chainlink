@@ -3,7 +3,7 @@
 set -e
 
 cd gui
-yarn tslint && yarn lint-ci && yarn test-ci
+yarn tslint-ci && yarn lint-ci && yarn test-ci
 
 cd ..
 cc-test-reporter format-coverage --output "coverage/codeclimate.gui.json"

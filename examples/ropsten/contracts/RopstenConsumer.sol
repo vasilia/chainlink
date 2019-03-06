@@ -765,9 +765,18 @@ contract Ownable {
 // File: ../examples/ropsten/contracts/RopstenConsumerBase.sol
 
 contract ARopstenConsumer is Chainlinked, Ownable {
+
+  address bobsAddress = 0xb0b5b100d1e555e07001b0b5b100d1e555e07001;
+  uint256 maximumAllowedRanking = 10;
+  bool bobHasSucceeded = false;
+  bool bobHasBeenPaid = false;
+  uint256 allowablePriceAge = 1 min;
+  bobsFee = 1;  // Fee in USD
+
   uint256 constant private ORACLE_PAYMENT = 1 * LINK; // solium-disable-line zeppelin/no-arithmetic-operations
 
   uint256 public currentPrice;
+  uint256 public timeOfCurrentPrice = 0;
   int256 public changeDay;
   bytes32 public lastMarket;
 
@@ -791,6 +800,25 @@ contract ARopstenConsumer is Chainlinked, Ownable {
 
   constructor() Ownable() public {
     setChainlinkWithENS(ROPSTEN_ENS, ROPSTEN_CHAINLINK_ENS);
+  }
+
+  function checkBobsPerformance(string _jobId) public onlyOwner {
+    Chainlink.Request memory req = newRequest(stringToBytes32(_jobId), this, this.checkBobHasSucceeded.selector);
+    req.add("url", "https://pastebin.com/raw/NPXL33mj");
+    req.addStringArray("path", ["ranking"]);
+    ChainlinkRequest(req, ORACLE_PAYMENT);
+  }
+
+  function checkBobHasSucceeded(bytes32 _requestId, uint256 _ranking) recordChainlinkFulfillment(_requestId) {
+    emit ReportOnBobsPerformance(_requestId, _ranking);
+    bobHasSucceeded = (_ranking <= maximumAllowedRanking);
+  }
+
+  function payBobOnSuccess() {
+    require(bobHasSucceeded, "Bob's performance has not been verified. Call checkBobsPerformance first")
+    require(now - timeOfCurrentPrice < allowablePriceAge,
+            "estimated ETH price too low. Call requestEthereumPrice and wait for fulfillment. Then call this again within 5 minutes.");
+    bobsAddress.transfer(bobsFee / currentPrice);
   }
 
   function requestEthereumPrice(string _jobId, string _currency) 
@@ -843,6 +871,7 @@ contract ARopstenConsumer is Chainlinked, Ownable {
   {
     emit RequestEthereumPriceFulfilled(_requestId, _price);
     currentPrice = _price;
+    timeOfCurrentPrice = now;
   }
 
   function fulfillEthereumChange(bytes32 _requestId, int256 _change)

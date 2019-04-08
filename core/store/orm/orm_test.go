@@ -2,6 +2,7 @@ package orm_test
 
 import (
 	"encoding/hex"
+	"fmt"
 	"io"
 	"math/big"
 	"os"
@@ -118,7 +119,6 @@ func TestORM_CreateJobRun_CreatesRunRequest(t *testing.T) {
 	store, cleanup := cltest.NewStore()
 	defer cleanup()
 
-	store.ORM.DB.LogMode(true)
 	job := cltest.NewJobWithWebInitiator()
 	require.NoError(t, store.CreateJob(&job))
 
@@ -768,13 +768,16 @@ func TestBulkDeleteRuns(t *testing.T) {
 	initiator := job.Initiators[0]
 
 	// matches updated before but none of the statuses
+	fmt.Println("--- 1")
 	oldIncompleteRun := job.NewRun(initiator)
 	oldIncompleteRun.Status = models.RunStatusInProgress
 	err := orm.CreateJobRun(&oldIncompleteRun)
 	require.NoError(t, err)
+	fmt.Println("--- 1.5")
 	db.Model(&oldIncompleteRun).UpdateColumn("updated_at", cltest.ParseISO8601("2018-01-01T00:00:00Z"))
 
 	// matches one of the statuses and the updated before
+	fmt.Println("--- 2")
 	oldCompletedRun := job.NewRun(initiator)
 	oldCompletedRun.Status = models.RunStatusCompleted
 	err = orm.CreateJobRun(&oldCompletedRun)
@@ -782,6 +785,7 @@ func TestBulkDeleteRuns(t *testing.T) {
 	db.Model(&oldCompletedRun).UpdateColumn("updated_at", cltest.ParseISO8601("2018-01-01T00:00:00Z"))
 
 	// matches one of the statuses but not the updated before
+	fmt.Println("--- 3")
 	newCompletedRun := job.NewRun(initiator)
 	newCompletedRun.Status = models.RunStatusCompleted
 	err = orm.CreateJobRun(&newCompletedRun)
@@ -789,6 +793,7 @@ func TestBulkDeleteRuns(t *testing.T) {
 	db.Model(&newCompletedRun).UpdateColumn("updated_at", cltest.ParseISO8601("2018-01-30T00:00:00Z"))
 
 	// matches nothing
+	fmt.Println("--- 4")
 	newIncompleteRun := job.NewRun(initiator)
 	newIncompleteRun.Status = models.RunStatusCompleted
 	err = orm.CreateJobRun(&newIncompleteRun)

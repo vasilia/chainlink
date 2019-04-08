@@ -16,7 +16,11 @@ type Migration struct{}
 // It is not possible to use the "ALTER TABLE ... ADD COLUMN" syntax to add a column that includes a REFERENCES...
 // https://www.sqlite.org/foreignkeys.html
 func (m Migration) Migrate(db *gorm.DB) error {
-	err := db.Exec(`
+	err := db.Exec(`PRAGMA foreign_keys=OFF`).Error
+	if err != nil {
+		return err
+	}
+	err = db.Exec(`
    CREATE TABLE "job_runs_replacement1554731144" (
     "id" varchar(255) NOT NULL,
     "job_spec_id" varchar(36) REFERENCES job_specs(id) NOT NULL,
@@ -54,5 +58,12 @@ func (m Migration) Migrate(db *gorm.DB) error {
 		tx.Rollback()
 		return err
 	}
-	return tx.Commit().Error
+	if err := tx.Commit().Error; err != nil {
+		return err
+	}
+	err = db.Exec(`PRAGMA foreign_keys=ON`).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }

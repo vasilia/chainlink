@@ -68,6 +68,7 @@ func NewORM(uri string, timeout time.Duration) (*ORM, error) {
 		return nil, fmt.Errorf("unable to init DB: %+v", err)
 	}
 
+	db.LogMode(true)
 	orm := &ORM{
 		DB:              db,
 		lockingStrategy: lockingStrategy,
@@ -878,17 +879,17 @@ func (orm *ORM) BulkDeleteRuns(bulkQuery *models.BulkDeleteRunRequest) error {
 	}
 
 	// and run_requests
-	err = tx.Exec(`
-		DELETE
-		FROM run_requests
-		WHERE run_requests.id IN (SELECT run_request_id
-													   FROM job_runs
-														 WHERE status IN (?) AND updated_at < ?)`,
-		bulkQuery.Status.ToStrings(), bulkQuery.UpdatedBefore).Error
-	if err != nil {
-		tx.Rollback()
-		return fmt.Errorf("error deleting JobRun's RunRequests: %v", err)
-	}
+	//err = tx.Exec(`
+	//DELETE
+	//FROM run_requests
+	//WHERE run_requests.id IN (SELECT run_request_id
+	//FROM job_runs
+	//WHERE status IN (?) AND updated_at < ?)`,
+	//bulkQuery.Status.ToStrings(), bulkQuery.UpdatedBefore).Error
+	//if err != nil {
+	//tx.Rollback()
+	//return fmt.Errorf("error deleting JobRun's RunRequests: %v", err)
+	//}
 
 	// and then task runs using a join in the subquery
 	err = tx.Exec(`
@@ -905,12 +906,11 @@ func (orm *ORM) BulkDeleteRuns(bulkQuery *models.BulkDeleteRunRequest) error {
 		return fmt.Errorf("error deleting TaskRuns's RunResults: %v", err)
 	}
 
-	err = tx.
-		Where("status IN (?)", bulkQuery.Status.ToStrings()).
-		Where("updated_at < ?", bulkQuery.UpdatedBefore).
-		Unscoped().
-		Delete(&[]models.JobRun{}).
-		Error
+	err = tx.Exec(
+		`PRAGMA foreign_keys = ON; DELETE FROM "job_runs" WHERE (status IN (?)) AND (updated_at < ?)`,
+		bulkQuery.Status.ToStrings(),
+		bulkQuery.UpdatedBefore,
+	).Error
 	if err != nil {
 		tx.Rollback()
 		return err

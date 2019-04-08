@@ -20,7 +20,7 @@ type JobRun struct {
 	Result         RunResult  `json:"result"`
 	ResultID       uint       `json:"-"`
 	RunRequest     RunRequest `json:"-"`
-	RunRequestID   uint       `json:"-"`
+	RunRequestID   uint       `json:"-" gorm:"not null;type:integer REFERENCES run_requests(id)"`
 	Status         RunStatus  `json:"status" gorm:"index"`
 	TaskRuns       []TaskRun  `json:"taskRuns"`
 	CreatedAt      time.Time  `json:"createdAt" gorm:"index"`

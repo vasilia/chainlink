@@ -77,7 +77,7 @@ func TestMigrationFromExistingDB(t *testing.T) {
 	require.NoError(t, os.MkdirAll(config.RootDir(), 0700))
 	cltest.WipePostgresDatabase(config)
 
-	fixtureDBPath := "../../internal/fixtures/migrations/1554131520_db.sqlite3"
+	fixtureDBPath := "../../../internal/fixtures/migrations/1554131520_db.sqlite3"
 	defaultDBPath := filepath.ToSlash(filepath.Join(config.RootDir(), "db.sqlite3"))
 	cltest.CopyFile(fixtureDBPath, defaultDBPath)
 	orm, err := orm.NewORM(config.NormalizedDatabaseURL(), config.DatabaseTimeout())

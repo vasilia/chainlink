@@ -80,5 +80,5 @@ func replaceRunRequest(tx *gorm.DB, jrid string, rr models.RunRequest) error {
 // to job run, insulating this migration from future changes to models.JobRun.
 type jobRun struct {
 	ID           string `gorm:"primary_key"`
-	RunRequestID uint
+	RunRequestID uint   `gorm:"type:integer REFERENCES run_requests(id)"`
 }

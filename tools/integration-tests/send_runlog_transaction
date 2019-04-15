@@ -8,7 +8,7 @@ const {
   LINK_TOKEN_ADDRESS,
   ORACLE_CONTRACT_ADDRESS
 } = process.env
-const { utils } = require('../solidity/app/env.js')
+const { utils } = require('../../solidity/app/env.js')
 const url = require('url')
 
 process.env.SOLIDITY_INCLUDE = '../solidity/contracts'

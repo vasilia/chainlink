@@ -9,7 +9,11 @@ const INCLUDE_PATHS = [
   './contracts/examples',
   '../contracts/examples',
   '../node_modules/',
-  '../node_modules/link_token/contracts'
+  '../node_modules/link_token/contracts',
+  // tools/integration-tests
+  '../../solidity/contracts/',
+  '../../node_modules/',
+  '../../node_modules/link_token/contracts'
 ]
 const SCRIPT_PATH = path.dirname(process.argv[1])
 

@@ -33,7 +33,7 @@ const main = async () => {
 
   const LinkToken = await deployer
     .load(
-      '../node_modules/link_token/contracts/LinkToken.sol',
+      '../../node_modules/link_token/contracts/LinkToken.sol',
       LINK_TOKEN_ADDRESS
     )
     .catch(abort(`Error loading LinkToken at address ${LINK_TOKEN_ADDRESS}`))

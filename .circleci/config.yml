@@ -9,13 +9,13 @@ jobs:
       - run: echo $CACHE_VERSION > cache.version
       - restore_cache:
           name: Restore Go Vendor Cache
-          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "Gopkg.lock" }}
-      - run: dep ensure -vendor-only
+          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "core/Gopkg.lock" }}
+      - run: make godep
       - save_cache:
           name: Save Go Vendor Cache
-          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "Gopkg.lock" }}
+          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "core/Gopkg.lock" }}
           paths:
-            - ./vendor
+            - ./core/vendor
       - run: ./tools/ci/init_gcloud
       - run: ./tools/ci/go_test
   go-sqlite-race:
@@ -27,11 +27,11 @@ jobs:
       - run: echo $CACHE_VERSION > cache.version
       - restore_cache:
           name: Restore Go Vendor Cache
-          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "Gopkg.lock" }}
-      - run: dep ensure -vendor-only
+          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "core/Gopkg.lock" }}
+      - run: make godep
       - save_cache:
           name: Save Go Vendor Cache
-          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "Gopkg.lock" }}
+          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "core/Gopkg.lock" }}
           paths:
             - ./vendor
       - run: ./tools/ci/gorace_test
@@ -50,11 +50,11 @@ jobs:
       - run: echo $CACHE_VERSION > cache.version
       - restore_cache:
           name: Restore Go Vendor Cache
-          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "Gopkg.lock" }}
-      - run: dep ensure -vendor-only
+          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "core/Gopkg.lock" }}
+      - run: make godep
       - save_cache:
           name: Save Go Vendor Cache
-          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "Gopkg.lock" }}
+          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "core/Gopkg.lock" }}
           paths:
             - ./vendor
       - run: ./tools/ci/go_single_threaded_test
@@ -67,11 +67,11 @@ jobs:
       - run: echo $CACHE_VERSION > cache.version
       - restore_cache:
           name: Restore Go Vendor Cache
-          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "Gopkg.lock" }}
-      - run: dep ensure -vendor-only
+          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "core/Gopkg.lock" }}
+      - run: make godep
       - save_cache:
           name: Save Go Vendor Cache
-          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "Gopkg.lock" }}
+          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "core/Gopkg.lock" }}
           paths:
             - ./vendor
       - run: ./tools/ci/rust_test
@@ -90,11 +90,11 @@ jobs:
       - run: echo $CACHE_VERSION > cache.version
       - restore_cache:
           name: Restore Go Vendor Cache
-          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "Gopkg.lock" }}
-      - run: dep ensure -vendor-only
+          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "core/Gopkg.lock" }}
+      - run: make godep
       - save_cache:
           name: Save Go Vendor Cache
-          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "Gopkg.lock" }}
+          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "core/Gopkg.lock" }}
           paths:
             - ./vendor
       - run: make enclave
@@ -114,11 +114,11 @@ jobs:
       - run: echo $CACHE_VERSION > cache.version
       - restore_cache:
           name: Restore Go Vendor Cache
-          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "Gopkg.lock" }}
-      - run: dep ensure -vendor-only
+          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "core/Gopkg.lock" }}
+      - run: make godep
       - save_cache:
           name: Save Go Vendor Cache
-          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "Gopkg.lock" }}
+          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "core/Gopkg.lock" }}
           paths:
             - ./vendor
       - run: ./tools/ci/ethereum_test
@@ -141,11 +141,11 @@ jobs:
       - run: echo $CACHE_VERSION > cache.version
       - restore_cache:
           name: Restore Go Vendor Cache
-          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "Gopkg.lock" }}
-      - run: dep ensure -vendor-only
+          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "core/Gopkg.lock" }}
+      - run: make godep
       - save_cache:
           name: Save Go Vendor Cache
-          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "Gopkg.lock" }}
+          key: v{{ checksum "cache.version" }}-go-vendor-{{ checksum "core/Gopkg.lock" }}
           paths:
             - ./vendor
       - run: ./tools/ci/ethereum_test parity

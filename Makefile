@@ -35,7 +35,7 @@ godep: ## Ensure chainlink's go dependencies are installed.
 	@if [ -z "`which gencodec`" ]; then \
 		go get github.com/smartcontractkit/gencodec; \
 	fi || true
-	dep ensure -vendor-only
+	cd core && dep ensure -vendor-only
 
 yarndep: ## Ensure the frontend's dependencies are installed.
 	yarn install --frozen-lockfile

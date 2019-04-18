@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "tools",
+  "version": "0.6.0",
+  "license": "MIT",
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "truffle-flattener": "^1.3.0"
+  }
+}

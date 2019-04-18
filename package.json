@@ -6,6 +6,7 @@
     "operator_ui",
     "integration",
     "explorer",
+    "explorer/client",
     "styleguide",
     "examples/*"
   ],
